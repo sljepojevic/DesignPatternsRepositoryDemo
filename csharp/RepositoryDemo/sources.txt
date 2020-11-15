@@ -1,0 +1,5 @@
+This is a file with all the code sources used in the project
+
+https://docs.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application 
+https://codewithshadman.com/repository-pattern-csharp/
+https://exceptionnotfound.net/ef-core-inmemory-asp-net-core-store-database/
