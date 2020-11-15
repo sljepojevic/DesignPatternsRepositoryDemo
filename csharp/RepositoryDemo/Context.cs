@@ -27,8 +27,6 @@ namespace RepositoryDemo
                 builder.HasOne(e => e.Student)
                     .WithMany(s => s.Enrollments)
                     .HasForeignKey(e => e.StudentId));
-            
-            // modelBuilder.Seed();
         }
     }
 }
