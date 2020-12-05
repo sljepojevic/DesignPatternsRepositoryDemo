@@ -12,10 +12,6 @@ namespace RepositoryDemo.Models
 
         public virtual ICollection<Enrollment> Enrollments { get; set; } =  new List<Enrollment>();
 
-        public Student()
-        {
-        }
-
         public override string ToString()
         {
             return "Student " + FirstName + " " + LastName + " enrolled on " + EnrollmentDate;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,10 @@ namespace RepositoryDemo.Repository
 
         public void InsertStudent(Student student)
         {
+            if (student.FirstName.Length == 0)
+            {
+                throw new Exception("First name should not be empty!");
+            }
             _context.Students.Add(student);
         }
 

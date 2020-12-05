@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RepositoryDemo.Models;
@@ -34,9 +36,10 @@ namespace RepositoryDemo.Controllers
         public IEnumerable<Student> GetStudents()
         {
             _logger.Log(LogLevel.Debug, "Get students");
-            return _baseRepositoryStudent.Get();
+            // return _context.Students.ToList();
             // return _studentRepository.GetStudents();
-            // return _context.Students.AsEnumerable().ToArray();
+            return _baseRepositoryStudent.Get();
+            
         }
 
         [HttpGet("{id}")]
@@ -57,6 +60,12 @@ namespace RepositoryDemo.Controllers
         [HttpPost]
         public OkResult CreateStudent(Student student)
         {
+            // if (student.FirstName.Length == 0)
+            // {
+            //     throw new Exception("First name should not be empty!");
+            // }
+            // _context.Students.Add(student);
+            
             _studentRepository.InsertStudent(student);
             _studentRepository.Save();
             return Ok();

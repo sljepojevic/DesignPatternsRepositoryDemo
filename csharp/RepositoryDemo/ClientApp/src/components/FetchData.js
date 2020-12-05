@@ -5,14 +5,14 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { students: [], loading: true };
   }
 
   componentDidMount() {
-    this.populateWeatherData();
+    this.populateStudentData();
   }
 
-  static renderForecastsTable(forecasts) {
+  static renderForecastsTable(students) {
     return (
         <table className='table table-striped' aria-labelledby="tabelLabel">
           <thead>
@@ -23,7 +23,7 @@ export class FetchData extends Component {
           </tr>
           </thead>
           <tbody>
-          {forecasts.map(student =>
+          {students.map(student =>
               <tr key={student.studentId}>
                   <td>{student.studentId}</td>
                   <td>{student.firstName}</td>
@@ -38,20 +38,20 @@ export class FetchData extends Component {
   render() {
     let contents = this.state.loading
         ? <p><em>Loading...</em></p>
-        : FetchData.renderForecastsTable(this.state.forecasts);
+        : FetchData.renderForecastsTable(this.state.students);
 
     return (
         <div>
-          <h1 id="tabelLabel" >Weather forecast</h1>
+          <h1 id="tabelLabel" >Students</h1>
           <p>This component demonstrates fetching data from the server.</p>
           {contents}
         </div>
     );
   }
 
-  async populateWeatherData() {
+  async populateStudentData() {
     const response = await fetch('student');
     const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
+    this.setState({ students: data, loading: false });
   }
 }
