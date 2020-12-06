@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryDemo.Models;
 using RepositoryDemo.Repository;
@@ -29,9 +30,9 @@ namespace RepositoryDemo.Controllers
 
         [HttpGet]
         public IEnumerable<Student> GetStudents()
-        {
-            // return _context.Students.ToList();
-            return _studentRepository.GetStudents();
+        { 
+            return _context.Students.ToList();
+            // return _studentRepository.GetStudents();
             // return _baseRepositoryStudent.Get();
         }
 
@@ -41,12 +42,18 @@ namespace RepositoryDemo.Controllers
             return _baseRepositoryStudent.GetById(id);
         }
 
+        /*
+         * Returns OK if firstName and lastName is the same
+         * Throws exception otherwise
+         */
         [HttpGet("{id}/sameName")]
         public OkResult CheckIfFirstNameAndLastNameIsTheSame(int id)
-        {
-            Student student = _studentRepository.GetStudentById(id);
+        { 
+            var student = _context.Students.Find(id);
+            
+           // var student = _studentRepository.GetStudentById(id);
 
-            if (student.FirstName == student.LastName)
+            if(CheckName(student) != 0)
                 throw new Exception("FirstName and LastName is not the same");
 
             return Ok();
@@ -75,6 +82,13 @@ namespace RepositoryDemo.Controllers
              * -----
              */
             return Ok();
+        }
+        
+        private int CheckName(Student student)
+        {
+            if (student.FirstName != student.LastName)
+                return 0;
+            return -1;
         }
     }
 }

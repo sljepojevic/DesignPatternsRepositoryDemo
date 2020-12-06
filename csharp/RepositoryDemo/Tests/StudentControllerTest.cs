@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -15,6 +17,55 @@ namespace RepositoryDemo.Tests
         public StudentControllerTest()
         {
             _mockRepository = new MockRepository(MockBehavior.Strict);
+        }
+        protected override void SeedDb(Context context)
+        {
+            var students = new List<Student>
+            {
+                new Student
+                {
+                    FirstName = "Same", LastName = "Same",
+                    EnrollmentDate = DateTime.Parse("2010-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Meredith", LastName = "Alonso",
+                    EnrollmentDate = DateTime.Parse("2012-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Arturo", LastName = "Anand",
+                    EnrollmentDate = DateTime.Parse("2013-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Gytis", LastName = "Barzdukas",
+                    EnrollmentDate = DateTime.Parse("2012-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Yan", LastName = "Li",
+                    EnrollmentDate = DateTime.Parse("2012-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Peggy", LastName = "Justice",
+                    EnrollmentDate = DateTime.Parse("2011-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Laura", LastName = "Norman",
+                    EnrollmentDate = DateTime.Parse("2013-09-01")
+                },
+                new Student
+                {
+                    FirstName = "Nino", LastName = "Olivetto",
+                    EnrollmentDate = DateTime.Parse("2005-08-11")
+                }
+            };
+
+            context.AddRange(students);
+            context.SaveChanges();
         }
 
         [Fact]

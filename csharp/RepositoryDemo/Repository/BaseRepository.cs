@@ -33,7 +33,7 @@ namespace RepositoryDemo.Repository
 
         public IEnumerable<TEntity> Get()
         {
-            return dbSet;
+            return dbSet; // _context.TableName
         }
 
         public TEntity GetById(object id)

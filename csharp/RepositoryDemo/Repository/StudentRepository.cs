@@ -22,7 +22,7 @@ namespace RepositoryDemo.Repository
 
         public Student GetStudentById(int studentId)
         {
-            return _context.Students.FirstOrDefault(s => s.StudentId == studentId);
+            return _context.Students.Find(studentId);
         }
 
         public void InsertStudent(Student student)
