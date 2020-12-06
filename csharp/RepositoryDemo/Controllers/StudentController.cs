@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using RepositoryDemo.Models;
 using RepositoryDemo.Repository;
 
@@ -12,7 +10,6 @@ namespace RepositoryDemo.Controllers
     [Route("[controller]")]
     public class StudentController : ControllerBase
     {
-        private readonly ILogger<StudentController> _logger;
         private Context _context;
         private IStudentRepository _studentRepository;
 
@@ -21,11 +18,9 @@ namespace RepositoryDemo.Controllers
         private BaseRepository<Enrollment> _baseRepositoryEnrollment;
 
 
-        public StudentController(Context context, ILogger<StudentController> logger,
-            IStudentRepository studentRepository)
+        public StudentController(Context context, IStudentRepository studentRepository)
         {
             _context = context;
-            _logger = logger;
             _studentRepository = studentRepository;
             _baseRepositoryStudent = new BaseRepository<Student>(_context);
             _baseRepositoryCourse = new BaseRepository<Course>(_context);
@@ -35,24 +30,31 @@ namespace RepositoryDemo.Controllers
         [HttpGet]
         public IEnumerable<Student> GetStudents()
         {
-            _logger.Log(LogLevel.Debug, "Get students");
             // return _context.Students.ToList();
-            // return _studentRepository.GetStudents();
-            return _baseRepositoryStudent.Get();
-            
+            return _studentRepository.GetStudents();
+            // return _baseRepositoryStudent.Get();
         }
 
         [HttpGet("{id}")]
         public Student GetStudent(int id)
         {
-            _logger.Log(LogLevel.Debug, "Get student with id " + id);
             return _baseRepositoryStudent.GetById(id);
+        }
+
+        [HttpGet("{id}/sameName")]
+        public OkResult CheckIfFirstNameAndLastNameIsTheSame(int id)
+        {
+            Student student = _studentRepository.GetStudentById(id);
+
+            if (student.FirstName == student.LastName)
+                throw new Exception("FirstName and LastName is not the same");
+
+            return Ok();
         }
 
         [HttpGet("{id}/enrollments")]
         public ICollection<Enrollment> GetStudentsEnrollment(int id)
         {
-            _logger.Log(LogLevel.Debug, "Get student with id " + id);
             Student student = _baseRepositoryStudent.GetById(id);
             return student.Enrollments;
         }
@@ -65,9 +67,13 @@ namespace RepositoryDemo.Controllers
             //     throw new Exception("First name should not be empty!");
             // }
             // _context.Students.Add(student);
-            
+
             _studentRepository.InsertStudent(student);
             _studentRepository.Save();
+
+            /*
+             * -----
+             */
             return Ok();
         }
     }
