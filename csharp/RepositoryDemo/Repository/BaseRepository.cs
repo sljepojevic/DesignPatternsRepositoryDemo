@@ -9,26 +9,9 @@ namespace RepositoryDemo.Repository
         internal DbSet<TEntity> dbSet;
 
         public BaseRepository(Context context)
-
         {
             _context = context;
             dbSet = context.Set<TEntity>();
-        }
-
-        public virtual void Delete(TEntity entityToDelete)
-        {
-            if (_context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                dbSet.Attach(entityToDelete);
-            }
-
-            dbSet.Remove(entityToDelete);
-        }
-
-        public void Delete(object id)
-        {
-            TEntity entityToDelete = dbSet.Find(id);
-            Delete(entityToDelete);
         }
 
         public IEnumerable<TEntity> Get()
@@ -51,7 +34,23 @@ namespace RepositoryDemo.Repository
             dbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
-        
+
+        public virtual void Delete(TEntity entityToDelete)
+        {
+            if (_context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+
+            dbSet.Remove(entityToDelete);
+        }
+
+        public void Delete(object id)
+        {
+            TEntity entityToDelete = dbSet.Find(id);
+            Delete(entityToDelete);
+        }
+
         // Code borrowed from
         // https://codewithshadman.com/repository-pattern-csharp/
     }
