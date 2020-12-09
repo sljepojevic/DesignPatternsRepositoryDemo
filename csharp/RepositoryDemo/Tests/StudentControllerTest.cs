@@ -69,15 +69,28 @@ namespace RepositoryDemo.Tests
         }
 
         [Fact]
-        public void GetStudents_Fails()
+        public void GetStudents_OK()
         {
-           var mockStudentRepository = _mockRepository.Create<IStudentRepository>();
+            var mockStudentRepository = _mockRepository.Create<IStudentRepository>();
             mockStudentRepository.Setup(sr => sr.GetStudentById(1))
                 .Returns(new Student{FirstName ="Same", LastName="Same"});
             
             var controller = new StudentController(Context, mockStudentRepository.Object);
             
             controller.CheckIfFirstNameAndLastNameIsTheSame(1).Should().BeEquivalentTo(new OkResult());
+        }
+        
+        [Fact]
+        public void GetStudents_Fails()
+        {
+            var mockStudentRepository = _mockRepository.Create<IStudentRepository>();
+            mockStudentRepository.Setup(sr => sr.GetStudentById(1))
+                .Returns(new Student{FirstName ="Same", LastName="NotSame"});
+            
+            var controller = new StudentController(Context, mockStudentRepository.Object);
+
+            Assert.Throws<Exception>(() =>
+                controller.CheckIfFirstNameAndLastNameIsTheSame(1));
         }
     }
 }
